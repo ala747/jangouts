@@ -14,18 +14,20 @@ import { fromEvent as notificationFromEvent } from '../../utils/notifications';
 
 const NOTIFICATION_SHOW = 'jangouts/notification/SHOW';
 const NOTIFICATION_CLOSE = 'jangouts/notification/CLOSE';
+const DEFAULT_TIMEOUT = 5000;
 
 /**
  * Notify that a given event has happened.
  *
  * @see notifications
  */
-const notifyEvent = (event) => (dispatch) => {
+const notifyEvent = (event, timeout = DEFAULT_TIMEOUT) => (dispatch) => {
   const notification = notificationFromEvent(event);
   if (!notification) {
     return null;
   }
   dispatch(show(notification));
+  setTimeout(() => dispatch(close(notification.id)), DEFAULT_TIMEOUT);
 };
 
 const show = (notification) => ({
